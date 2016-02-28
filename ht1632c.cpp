@@ -395,8 +395,7 @@ uint8_t ht1632c::putchar(int x, int y, char c, uint8_t color, uint8_t attr, uint
 }
 
 /* put a bitmap in the coordinates x, y */
-
-void ht1632c::putbitmap(int x, int y, const prog_uint16_t *bitmap, uint8_t w, uint8_t h, uint8_t color)
+void ht1632c::putbitmap(int x, int y, const prog_uint16_t *bitmap, uint8_t w, uint8_t h, uint8_t color, bool _bSwapAxes )
 {
   uint16_t dots, msb;
   char col, row;
@@ -409,13 +408,19 @@ void ht1632c::putbitmap(int x, int y, const prog_uint16_t *bitmap, uint8_t w, ui
   {
     dots = pgm_read_word_near(&bitmap[row]);
     if (dots && color)
+    {
       for (uint8_t col = 0; col < w; col++)
       {
-	if (dots & (msb >> col))
-	  plot(x + col, y + row, color);
-	else
-	  plot(x + col, y + row, BLACK);
+        if ( _bSwapAxes )
+        {
+          plot(x + row, y + col, (dots & (msb >> col)) ? color : BLACK);
+        }
+        else
+        {
+          plot(x + col, y + row, (dots & (msb >> col)) ? color : BLACK);
+        }
       }
+    }
   }
 }
 
