@@ -3,7 +3,7 @@
 #include <string.h>
 #include "ht1632c.h"
 #include "Print.h"
-#include "font_b.h"
+#include "font.h"
 #include "font_koi8.h"
 
 /* fast integer (1 uint8_t) modulus - returns n % d */
@@ -396,7 +396,7 @@ uint8_t ht1632c::putchar(int x, int y, char c, uint8_t color, uint8_t attr, uint
 
 /* put a bitmap in the coordinates x, y */
 
-void ht1632c::putbitmap(int x, int y, prog_uint16_t *bitmap, uint8_t w, uint8_t h, uint8_t color)
+void ht1632c::putbitmap(int x, int y, const prog_uint16_t *bitmap, uint8_t w, uint8_t h, uint8_t color)
 {
   uint16_t dots, msb;
   char col, row;
